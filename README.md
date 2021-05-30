@@ -26,12 +26,12 @@ git clone https://github.com/jrhorner1/ssd_prep.git
 
 Update the eeprom on your Pi 4 to the latest version and configure the boot order:
 ```bash
+cd ssd_prep/
 sudo ./rpi-eeprom.sh
 ```
 
 Plug in your SSD and run the script:
 ```bash
-cd ssd_prep/
 sudo ./ssd_prep.sh
 ```
 
