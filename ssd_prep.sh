@@ -31,9 +31,15 @@ n # new partition
 p # primary partition
 2 # partion number 2
 526336 # begining of the original partition 
-  # default, extend partition to end of disk
++20G  # extend partition to 20gb
 n # do not overwrite signature
 p # print partition table again
+n # new partition
+p # primary partition
+3 # partion number 3
+ # default, begining of the new partition 
+ # default, extend partition to the end of the disk
+p # print partition table once more
 w # write changes
 q # quit
 EOF
