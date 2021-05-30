@@ -6,6 +6,11 @@ UBUNTUIMG=ubuntu-21.04-preinstalled-server-arm64+raspi.img
 MNTBOOT=/mnt/boot
 MNTROOT=/mnt/root
 
+# check if running as root
+if [ $(whoami) != "root" ];
+    echo 'Try: sudo !!'
+    exit 1
+fi
 
 # check if ubuntu image exists
 if [ ! -f "$UBUNTUIMG" ]; then
