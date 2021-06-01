@@ -14,7 +14,7 @@ DNS_SEARCH="${DNS_SEARCH:="example.com"}"
 DNS_ADDRS="${DNS_ADDRS:="1.1.1.1, 1.0.0.1"}"
 
 # check if running as root
-if [ $(whoami) != "root" ];
+if [ $(whoami) != "root" ]; then
     echo 'Try: sudo !!'
     exit 1
 fi
