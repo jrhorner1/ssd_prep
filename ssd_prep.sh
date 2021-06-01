@@ -10,7 +10,7 @@ NETPLAN_CONFIG="${NETPLAN_CONFIG:="99_config.yaml"}"
 IP="${IP:=""}"
 CIDR="${CIDR:="24"}"
 GATEWAY="${GATEWAY:="192.168.1.1"}"
-DNS_SEARCH="${DNS_SEARCH:="example.com"}"
+DNS_SEARCH="${DNS_SEARCH:=""}"
 DNS_ADDRS="${DNS_ADDRS:="1.1.1.1, 1.0.0.1"}"
 
 # check if running as root
