@@ -88,7 +88,7 @@ fi
 # Static IP configuration
 if [ ${IP} != "" ]; then
     # Disable Cloud config
-    cp 99_disable_network_config.cfg ${MNTROOT}/etc/cloud.cloud.cfg.d/
+    cp 99_disable_network_config.cfg ${MNTROOT}/etc/cloud/cloud.cfg.d/
     # Configure static IP
     cat <<EOF > ${MNTROOT}/etc/netplan/${NETPLAN_CONFIG}.yaml
 network:
