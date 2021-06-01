@@ -44,7 +44,6 @@ p # primary partition
 2 # partion number 2
 526336 # begining of the original partition 
 +20G # extend partition to 20gb
-n # do not overwrite signature
 p # print partition table again
 w # write changes
 q # quit
