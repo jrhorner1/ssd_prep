@@ -5,7 +5,7 @@ REBOOT_TIMER=1
 EEPROM_CONFIG=boot.conf
 
 # check if running as root
-if [ $(whoami) != "root" ];
+if [ $(whoami) != "root" ]; then
     echo 'Try: sudo !!'
     exit 1
 fi
