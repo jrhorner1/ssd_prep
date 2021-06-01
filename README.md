@@ -59,7 +59,7 @@ This will disable cloud configuration and setup a static IP using Netplan. Paths
 |Variable|Value|Description|
 |---|---|---|
 |TARGETDEV|/dev/sda|Device path for your SSD.|
-|UBUNTUIMG|ubuntu-21.04-preinstalled-server-arm64+raspi.img|Ubuntu 20.04 LTS image filename.|
+|UBUNTUIMG|ubuntu-21.04-preinstalled-server-arm64+raspi.img|Ubuntu 21.04 LTS image filename.|
 |MNTBOOT|/mnt/boot|Path to mount your boot partition to.|
 |MNTROOT|/mnt/root|Path to mount your root partition to.|
 |HOSTNAME|`null`|No default value is set.|
