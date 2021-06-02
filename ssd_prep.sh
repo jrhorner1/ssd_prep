@@ -6,12 +6,17 @@ UBUNTUIMG=ubuntu-21.04-preinstalled-server-arm64+raspi.img
 MNTBOOT=/mnt/boot
 MNTROOT=/mnt/root
 
+HOSTNAME="${HOSTNAME:=""}"
 NETPLAN_CONFIG="${NETPLAN_CONFIG:="99_config.yaml"}"
 IP="${IP:=""}"
 CIDR="${CIDR:="24"}"
-GATEWAY="${GATEWAY:="192.168.1.1"}"
-DNS_SEARCH="${DNS_SEARCH:=""}"
-DNS_ADDRS="${DNS_ADDRS:="1.1.1.1, 1.0.0.1"}"
+GATEWAY="${GATEWAY:="$(echo $IP | sed -r 's/^([0-9]{,3}\.[0-9]{,3}\.[0-9]{,3}\.)[0-9]{,3}/\11/')"}"
+if [ $(echo $HOSTNAME | grep "\.") != "." ]; then
+    DNS_SEARCH=${DNS_SEARCH:=""}
+else
+    DNS_SEARCH="${DNS_SEARCH:="$(echo $HOSTNAME | sed -r 's/^[a-z0-9\-_]+\.([a-z0-9\-_.]+)$/\1/')"}"
+fi
+DNS_ADDRS="${DNS_ADDRS:="$(grep "nameserver" /etc/resolv.conf | sed -r 's/^nameserver ([0-9]{,3}\.[0-9]{,3}\.[0-9]{,3}\.[0-9]{,3})/\1/' | awk '{printf("%s ", $0)}' | sed -r 's/(.+) (.+)/\1, \2/')"}"
 
 # check if running as root
 if [ $(whoami) != "root" ]; then
@@ -45,10 +50,15 @@ p # primary partition
 526336 # begining of the original partition 
 +20G # extend partition to 20gb
 p # print partition table again
+n # create a new partition
+p # primary partition
+3 # partition number 3
+ # default beginning of partition
+ # default extend to the full capacity
+p # print partitions
 w # write changes
 q # quit
 EOF
-
 
 # Mount disk
 mount ${TARGETDEV}1 $MNTBOOT

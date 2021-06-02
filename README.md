@@ -62,11 +62,11 @@ This will disable cloud configuration and setup a static IP using Netplan. Paths
 |UBUNTUIMG|ubuntu-21.04-preinstalled-server-arm64+raspi.img|Ubuntu 21.04 LTS image filename.|
 |MNTBOOT|/mnt/boot|Path to mount your boot partition to.|
 |MNTROOT|/mnt/root|Path to mount your root partition to.|
-|HOSTNAME|`null`|No default value is set.|
+|HOSTNAME| |No default value is set.|
 |NETPLAN_CONFIG|99_config.yaml|Generic netplan configuration file name.|
-|IP|`null`|No default value is set.| 
-|CIDR|24|The standard subnet size for private networks with 254 usable addresses.|
-|GATEWAY|192.168.1.1|Most common private network gateway address.|
-|DNS_SEARCH|`null`|No default value is set.|
-|DNS_ADDRS|1.1.1.1, 1.0.0.1|Cloudflare Public DNS.|
+|IP| |No default value is set.| 
+|CIDR|24|The standard subnet size for class C private networks with 254 usable addresses.|
+|GATEWAY| |This uses a sed command to set the gateway to the first address in the IP's subnet, ie. if your IP is 192.168.1.54 the gateway will be 192.168.1.1. Note: does not work if the CIDR isn't 24.|
+|DNS_SEARCH| |By default, this will determine if a domain is appended to your hostname and if so, set that as the value. Otherwise it is not set.|
+|DNS_ADDRS| |This uses a sed command to pull your nameservers from `/etc/resolv.conf` in Raspberry Pi OS which would have been set by DHCP by default.|
 
