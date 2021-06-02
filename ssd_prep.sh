@@ -4,7 +4,7 @@
 TARGETDEV=/dev/sda
 UBUNTUIMG=ubuntu-21.04-preinstalled-server-arm64+raspi.img
 MNTBOOT=/mnt/boot
-MNTROOT=/mnt/root
+MNTROOT=/mnt
 
 HOSTNAME="${HOSTNAME:=""}"
 NETPLAN_CONFIG="${NETPLAN_CONFIG:="99_config.yaml"}"
@@ -60,9 +60,9 @@ w # write changes
 q # quit
 EOF
 
-# Mount disk
-mount ${TARGETDEV}1 $MNTBOOT
+# Mount target device, root first then boot
 mount ${TARGETDEV}2 $MNTROOT
+mount ${TARGETDEV}1 $MNTBOOT
 
 # Decompress kernel
 cp $MNTBOOT/vmlinuz ./
@@ -115,3 +115,7 @@ network:
         addresses: [ ${DNS_ADDRS} ]
 EOF
 fi
+
+# unmount target device, boot first then root
+umount $MNTBOOT
+umount $MNTROOT
