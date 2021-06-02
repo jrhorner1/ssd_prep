@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# check if running as root
+if [ $(whoami) != "root" ]; then
+    echo 'Try: sudo !!'
+    exit 1
+fi
+
 # VARS
 TARGETDEV=/dev/sda
 UBUNTUIMG=ubuntu-21.04-preinstalled-server-arm64+raspi.img
@@ -18,16 +24,28 @@ else
 fi
 DNS_ADDRS="${DNS_ADDRS:="$(grep "nameserver" /etc/resolv.conf | sed -r 's/^nameserver ([0-9]{,3}\.[0-9]{,3}\.[0-9]{,3}\.[0-9]{,3})/\1/' | awk '{printf("%s ", $0)}' | sed -r 's/(.+) (.+)/\1, \2/')"}"
 
-# check if running as root
-if [ $(whoami) != "root" ]; then
-    echo 'Try: sudo !!'
-    exit 1
-fi
-
 # check if ubuntu image exists
 if [ ! -f "$UBUNTUIMG" ]; then
-    # if not download image
+    # if not download image, checksums, and signature
+    curl -O https://cdimage.ubuntu.com/releases/21.04/release/SHA256SUMS
+    curl -O https://cdimage.ubuntu.com/releases/21.04/release/SHA256SUMS.gpg
     curl -O https://cdimage.ubuntu.com/releases/21.04/release/${UBUNTUIMG}.xz
+    # Retrieve Ubuntu keys from their keyserver 
+    # Ref. https://ubuntu.com/tutorials/how-to-verify-ubuntu#4-retrieve-the-correct-signature-key
+    gpg --keyid-format long --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x46181433FBB75451 0xD94AA3F0EFE21092
+    gpg --keyid-format long --list-keys --with-fingerprint 0x46181433FBB75451 0xD94AA3F0EFE21092
+    # Verify the downloaded sums
+    gpg --keyid-format long --verify SHA256SUMS.gpg SHA256SUMS
+    if [ ! $? -eq 0 ]; then
+        echo "Signature doesn't match."
+        exit 1
+    fi
+    # Verify the download
+    sha256sum -c SHA256SUMS 2>&1 | grep OK
+    if [ ! $? -eq 0 ]; then
+        echo "SHA-256 sum doesn't match."
+        exit 1
+    fi
     xz -d ${UBUNTUIMG}.xz
 fi
 
