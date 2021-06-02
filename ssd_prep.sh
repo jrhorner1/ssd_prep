@@ -10,7 +10,7 @@ fi
 TARGETDEV=/dev/sda
 UBUNTUVER=21.04
 UBUNTUIMG=ubuntu-21.04-preinstalled-server-arm64+raspi.img
-MNTBOOT=/mnt/boot
+MNTBOOT=/mnt/boot/firmware
 MNTROOT=/mnt
 
 HOSTNAME="${HOSTNAME:=""}"
