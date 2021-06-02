@@ -11,7 +11,7 @@ NETPLAN_CONFIG="${NETPLAN_CONFIG:="99_config.yaml"}"
 IP="${IP:=""}"
 CIDR="${CIDR:="24"}"
 GATEWAY="${GATEWAY:="$(echo $IP | sed -r 's/^([0-9]{,3}\.[0-9]{,3}\.[0-9]{,3}\.)[0-9]{,3}/\11/')"}"
-if [ $(echo $HOSTNAME | grep "\.") != "." ]; then
+if [ $(echo $HOSTNAME | grep "\.") == "" ]; then
     DNS_SEARCH=${DNS_SEARCH:=""}
 else
     DNS_SEARCH="${DNS_SEARCH:="$(echo $HOSTNAME | sed -r 's/^[a-z0-9\-_]+\.([a-z0-9\-_.]+)$/\1/')"}"
