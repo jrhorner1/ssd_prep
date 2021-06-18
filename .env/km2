@@ -1,0 +1,3 @@
+HOSTNAME=km2.jrhorner.com
+IP=192.168.11.12
+AUTH_KEYS=./.ssh/authorized_keys

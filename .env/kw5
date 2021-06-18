@@ -1,0 +1,3 @@
+HOSTNAME=kw5.jrhorner.com
+IP=192.168.11.18
+AUTH_KEYS=./.ssh/authorized_keys
