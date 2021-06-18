@@ -152,8 +152,16 @@ fi
 
 # SSH Authorized Keys configuration
 if [ ${AUTH_KEYS} != "" ]; then
+    echo "Creating .ssh directory..."
+    SSH_DIR=${MNTROOT}/home/ubuntu/.ssh
+    mkdir ${SSH_DIR}
+    chown 1000:1000 ${SSH_DIR}
+    chmod 700 ${SSH_DIR}
+
     echo "Configuring SSH Authorized Keys..."
-    cp ${AUTH_KEYS} ${MNTROOT}/home/ubuntu/.ssh/authorized_keys
+    cp ${AUTH_KEYS} ${SSH_DIR}/authorized_keys
+    chown 1000:1000 ${SSH_DIR}/authorized_keys
+    chmod 600 ${SSH_DIR}/authorized_keys
 fi
 
 # unmount target device, boot first then root
