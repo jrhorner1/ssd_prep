@@ -1,3 +1,3 @@
-HOSTNAME=kw2.jrhorner.com
-IP=192.168.11.15
-AUTH_KEYS=./.ssh/authorized_keys
+export HOSTNAME=kw2.jrhorner.com
+export IP=192.168.11.15
+export AUTH_KEYS=./.ssh/authorized_keys

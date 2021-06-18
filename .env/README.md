@@ -4,5 +4,5 @@ This directory contains environment files for SSD preparation for each of my kub
 ### Usage
 
 ```bash
-export ./.env/km1 && sudo -E ./ssd_prep.sh
+sudo su -c 'source .env/km1 && ./ssd_prep.sh'
 ```
