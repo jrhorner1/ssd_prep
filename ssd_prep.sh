@@ -152,10 +152,14 @@ fi
 
 # SSH Authorized Keys configuration
 if [ ${AUTH_KEYS} != "" ]; then
-    echo "Creating .ssh directory..."
-    SSH_DIR=${MNTROOT}/home/ubuntu/.ssh
-    mkdir ${SSH_DIR}
-    chown 1000:1000 ${SSH_DIR}
+    USER=ubuntu
+    USER_HOME=${MNTROOT}/home/${USER}
+    SSH_DIR=${USER_HOME}/.ssh
+    
+    echo "Creating ${USER} home and .ssh directories..."
+    mkdir -p ${USER_HOME}
+    chown -R 1000:1000 ${USER_HOME}
+    chmod 750 ${USER_HOME}
     chmod 700 ${SSH_DIR}
 
     echo "Configuring SSH Authorized Keys..."
