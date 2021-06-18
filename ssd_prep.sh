@@ -69,7 +69,7 @@ echo "Writing image to ${TARGETDEV}..."
 dd status=progress if=$UBUNTUIMG of=$TARGETDEV bs=4M
 
 # resize the root partition
-echo "Resizing ${TARGETDEV}2 and adding another partition..."
+echo "Resizing ${TARGETDEV}2..."
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk $TARGETDEV
 p # print the partion table
 d # delete a partition
@@ -78,12 +78,6 @@ n # new partition
 p # primary partition
 2 # partion number 2
 526336 # begining of the original partition 
-+20G # extend partition to 20gb
-p # print partition table again
-n # create a new partition
-p # primary partition
-3 # partition number 3
- # default beginning of partition
  # default extend to the full capacity
 p # print partitions
 w # write changes
