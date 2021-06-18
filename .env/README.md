@@ -1,8 +1,8 @@
 ## Environment files
-This directory contains environment files for SSD preparation for each of my kubernetes cluster nodes and other Raspberry Pi's that may need to be configured regularly.
+This directory contains environment files for SSD preparation for each of my kubernetes cluster nodes.
 
 ### Usage
 
 ```bash
-export ./nodes/km1 && sudo -E ./ssd_prep.sh
+export ./.env/km1 && sudo -E ./ssd_prep.sh
 ```
