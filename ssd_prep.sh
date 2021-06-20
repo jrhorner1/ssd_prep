@@ -18,10 +18,14 @@ NETPLAN_CONFIG="${NETPLAN_CONFIG:="99_config.yaml"}"
 IP="${IP:=""}"
 CIDR="${CIDR:="24"}"
 GATEWAY="${GATEWAY:="$(echo $IP | sed -r 's/^([0-9]{,3}\.[0-9]{,3}\.[0-9]{,3}\.)[0-9]{,3}/\11/')"}"
-if [ $(echo $HOSTNAME | grep "\.") == "" ]; then
+if [ $HOSTNAME != "" ]; then
+    if [ $(echo $HOSTNAME | grep "\.") == "" ]; then
+        DNS_SEARCH=${DNS_SEARCH:=""}
+    else
+        DNS_SEARCH="${DNS_SEARCH:="$(echo $HOSTNAME | sed -r 's/^[a-z0-9\-_]+\.([a-z0-9\-_.]+)$/\1/')"}"
+    fi
+else 
     DNS_SEARCH=${DNS_SEARCH:=""}
-else
-    DNS_SEARCH="${DNS_SEARCH:="$(echo $HOSTNAME | sed -r 's/^[a-z0-9\-_]+\.([a-z0-9\-_.]+)$/\1/')"}"
 fi
 DNS_ADDRS="${DNS_ADDRS:="$(grep "nameserver" /etc/resolv.conf | sed -r 's/^nameserver ([0-9]{,3}\.[0-9]{,3}\.[0-9]{,3}\.[0-9]{,3})/\1/' | awk '{printf("%s ", $0)}' | sed -r 's/(.+) (.+)/\1, \2/')"}"
 AUTH_KEYS="${AUTH_KEYS:=""}" # path to authorized keys file to copy to host
@@ -157,7 +161,7 @@ if [ ${AUTH_KEYS} != "" ]; then
     SSH_DIR=${USER_HOME}/.ssh
     
     echo "Creating ${USER} home and .ssh directories..."
-    mkdir -p ${USER_HOME}
+    mkdir -p ${SSH_DIR}
     chown -R 1000:1000 ${USER_HOME}
     chmod 750 ${USER_HOME}
     chmod 700 ${SSH_DIR}
