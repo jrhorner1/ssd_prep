@@ -8,10 +8,13 @@ fi
 
 # VARS
 TARGETDEV=/dev/sda
-UBUNTUVER=21.04
-UBUNTUIMG=ubuntu-21.04-preinstalled-server-arm64+raspi.img
+UBUNTUVER=22.04
+UBUNTUIMG=ubuntu-${UBUNTUVER}-preinstalled-server-arm64+raspi.img
 MNTBOOT=/mnt/boot/firmware
 MNTROOT=/mnt
+
+# Change to 1 if you intend to use opebebs for storage
+USE_OPENEBS=0
 
 HOSTNAME="${HOSTNAME:=""}"
 NETPLAN_CONFIG="${NETPLAN_CONFIG:="99_config.yaml"}"
@@ -68,8 +71,8 @@ fi
 echo "Writing image to ${TARGETDEV}..."
 dd status=progress if=$UBUNTUIMG of=$TARGETDEV bs=4M
 
-# resize the root partition
-echo "Resizing ${TARGETDEV}2 and adding another partition..."
+# resize the root partition and add storage partition
+echo "Resizing ${TARGETDEV}2 and adding storage partition..."
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk $TARGETDEV
 p # print the partion table
 d # delete a partition
@@ -94,6 +97,18 @@ EOF
 echo "Mounting ${TARGETDEV} partitions..."
 mount ${TARGETDEV}2 $MNTROOT
 mount ${TARGETDEV}1 $MNTBOOT
+
+# Format storage partition with ext4 filesystem
+mkfs.ext4 ${TARGETDEV}3 
+# Add a label to openebs volume
+e2label ${TARGETDEV}3 storage
+
+if [[ ${USE_OPENEBS} -eq 1 ]]; then
+    # Create the mount point
+    mkdir /var/openebs
+    # Append entry to /etc/fstab
+    echo "LABEL=storage /var/openebs ext4 discard 0 1" >> /etc/fstab
+fi
 
 # Decompress kernel
 echo "Decompressing kernel..."
