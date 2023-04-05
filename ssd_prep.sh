@@ -27,6 +27,7 @@ else
     DNS_SEARCH="${DNS_SEARCH:="$(echo $HOSTNAME | sed -r 's/^[a-z0-9\-_]+\.([a-z0-9\-_.]+)$/\1/')"}"
 fi
 DNS_ADDRS="${DNS_ADDRS:="$(grep "nameserver" /etc/resolv.conf | sed -r 's/^nameserver ([0-9]{,3}\.[0-9]{,3}\.[0-9]{,3}\.[0-9]{,3})/\1/' | awk '{printf("%s ", $0)}' | sed -r 's/(.+) (.+)/\1, \2/')"}"
+AUTH_KEYS="${AUTH_KEYS:=""}" # path to authorized keys file to copy to host
 
 # check if ubuntu image exists
 if [ ! -f "$UBUNTUIMG" ]; then
@@ -168,6 +169,24 @@ network:
         search: [ ${DNS_SEARCH} ]
         addresses: [ ${DNS_ADDRS} ]
 EOF
+fi
+
+# SSH Authorized Keys configuration
+if [ ${AUTH_KEYS} != "" ]; then
+    USER=ubuntu
+    USER_HOME=${MNTROOT}/home/${USER}
+    SSH_DIR=${USER_HOME}/.ssh
+    
+    echo "Creating ${USER} home and .ssh directories..."
+    mkdir -p ${SSH_DIR}
+    chown -R 1000:1000 ${USER_HOME}
+    chmod 750 ${USER_HOME}
+    chmod 700 ${SSH_DIR}
+
+    echo "Configuring SSH Authorized Keys..."
+    cp ${AUTH_KEYS} ${SSH_DIR}/authorized_keys
+    chown 1000:1000 ${SSH_DIR}/authorized_keys
+    chmod 600 ${SSH_DIR}/authorized_keys
 fi
 
 # unmount target device, boot first then root

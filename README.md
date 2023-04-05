@@ -71,9 +71,17 @@ This will disable cloud configuration and setup a static IP using Netplan. Paths
 * `/etc/cloud/cloud.cfg.d/99_disable_cloud_config.cfg`
 * `/etc/netplan/99_config.yaml` (This filename is configurable.)
 
+<<<<<<< HEAD
 ### OpenEBS Mount
 
 Change the `USE_OPENEBS` variable to `1` to create the mount point and add an `/etc/fstab` entry.  
+=======
+### SSH Authorized Keys
+Specify an existing authorized_keys file to copy to the ssd:
+```bash
+sudo AUTH_KEYS=~/.ssh/authorized_keys ./ssd_prep.sh
+```
+>>>>>>> 66e413698a8f497c5d4496fbdbe45954c7a8e8aa
 
 ## Script variables
 
@@ -90,3 +98,8 @@ Change the `USE_OPENEBS` variable to `1` to create the mount point and add an `/
 |GATEWAY| |This uses a sed command to set the gateway to the first address in the IP's subnet, ie. if your IP is 192.168.1.54 the gateway will be 192.168.1.1. Note: does not work if the CIDR isn't 24.|
 |DNS_SEARCH| |By default, this will determine if a domain is appended to your hostname and if so, set that as the value. Otherwise it is not set.|
 |DNS_ADDRS| |This uses a sed command to pull your nameservers from `/etc/resolv.conf` in Raspberry Pi OS which would have been set by DHCP by default.|
+<<<<<<< HEAD
+=======
+|AUTH_KEYS| |Path to an existing [authorized_keys](https://www.ssh.com/academy/ssh/authorized-key) file.|
+
+>>>>>>> 66e413698a8f497c5d4496fbdbe45954c7a8e8aa
