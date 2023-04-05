@@ -71,17 +71,17 @@ This will disable cloud configuration and setup a static IP using Netplan. Paths
 * `/etc/cloud/cloud.cfg.d/99_disable_cloud_config.cfg`
 * `/etc/netplan/99_config.yaml` (This filename is configurable.)
 
-<<<<<<< HEAD
 ### OpenEBS Mount
 
 Change the `USE_OPENEBS` variable to `1` to create the mount point and add an `/etc/fstab` entry.  
-=======
+
 ### SSH Authorized Keys
+
 Specify an existing authorized_keys file to copy to the ssd:
+
 ```bash
 sudo AUTH_KEYS=~/.ssh/authorized_keys ./ssd_prep.sh
 ```
->>>>>>> 66e413698a8f497c5d4496fbdbe45954c7a8e8aa
 
 ## Script variables
 
