@@ -98,8 +98,4 @@ sudo AUTH_KEYS=~/.ssh/authorized_keys ./ssd_prep.sh
 |GATEWAY| |This uses a sed command to set the gateway to the first address in the IP's subnet, ie. if your IP is 192.168.1.54 the gateway will be 192.168.1.1. Note: does not work if the CIDR isn't 24.|
 |DNS_SEARCH| |By default, this will determine if a domain is appended to your hostname and if so, set that as the value. Otherwise it is not set.|
 |DNS_ADDRS| |This uses a sed command to pull your nameservers from `/etc/resolv.conf` in Raspberry Pi OS which would have been set by DHCP by default.|
-<<<<<<< HEAD
-=======
 |AUTH_KEYS| |Path to an existing [authorized_keys](https://www.ssh.com/academy/ssh/authorized-key) file.|
-
->>>>>>> 66e413698a8f497c5d4496fbdbe45954c7a8e8aa
